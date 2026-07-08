@@ -43,3 +43,11 @@ def fetch(chain, address):
             json.dump(data, f, indent=2)
 
     print("Download complete.")
+
+    return {
+        "transactions": json.load(open("data/transactions.json")),
+        "internal": json.load(open("data/internal.json")),
+        "erc20": json.load(open("data/erc20.json")),
+        "erc721": json.load(open("data/erc721.json")),
+        "erc1155": json.load(open("data/erc1155.json")),
+    }
