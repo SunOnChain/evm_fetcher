@@ -2,20 +2,26 @@ from models.transaction import Transaction
 
 
 def analyze(tx: Transaction):
-    incoming = set()
-    outgoing = set()
+    incoming = 0
+    outgoing = 0
 
     wallet = tx.wallet.lower()
 
     for event in tx.asset_events:
 
         if event.sender and event.sender.lower() == wallet:
-            outgoing.add(event.asset)
+            outgoing += 1
 
         if event.receiver and event.receiver.lower() == wallet:
-            incoming.add(event.asset)
+            incoming += 1
 
     if incoming and outgoing:
-        return "SWAP"
+        return "SELF_TRANSFER"
+
+    if incoming:
+        return "RECEIVE"
+
+    if outgoing:
+        return "SEND"
 
     return None

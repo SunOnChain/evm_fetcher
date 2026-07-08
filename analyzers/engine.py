@@ -1,21 +1,20 @@
 from analyzers.transfer import analyze as transfer
+
 from analyzers.swap import analyze as swap
 
-
 ANALYZERS = [
-    transfer,
     swap,
+    transfer,
 ]
 
 
-def analyze(group, wallets):
+def analyze(tx):
     for analyzer in ANALYZERS:
-        try:
-            result = analyzer(group, wallets)
-        except TypeError:
-            result = analyzer(group)
+        result = analyzer(tx)
 
         if result:
+            tx.tx_type = result
             return result
 
-    return "UNKNOWN"
+    tx.tx_type = "UNKNOWN"
+    return tx.tx_type
