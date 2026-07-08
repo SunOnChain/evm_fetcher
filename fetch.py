@@ -39,7 +39,10 @@ def fetch(chain, address):
         with urllib.request.urlopen(url) as r:
             data = json.loads(r.read().decode())
 
-        with open(f"data/{name}.json", "w", encoding="utf-8") as f:
+        wallet_dir = f"data/wallets/{address.lower()}"
+        os.makedirs(wallet_dir, exist_ok=True)
+
+        with open(f"{wallet_dir}/{name}.json", "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
     print("Download complete.")
