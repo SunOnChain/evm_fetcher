@@ -5,7 +5,7 @@ from fetch import fetch
 from config import CHAINS
 
 print("=" * 40)
-print("TXN v0.5")
+print("TXN v0.8")
 print("=" * 40)
 
 print("\nPaste wallet addresses (one per line).")
@@ -36,7 +36,7 @@ if choice not in CHAINS:
     print("Invalid chain.")
     exit()
 
-chain = CHAINS[choice]["id"]
+chain = CHAINS[choice]
 
 print("\nExporter")
 print("1. Cryptact")
