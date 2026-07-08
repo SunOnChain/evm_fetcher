@@ -21,11 +21,11 @@ def set_method(current, candidate):
         return s(candidate)
     return current
 
-transactions = load_json('transactions.json')
-internal     = load_json('internal.json')
-erc20        = load_json('erc20.json')
-erc721       = load_json('erc721.json')
-erc1155      = load_json('erc1155.json')
+transactions = load_json('data/transactions.json')
+internal     = load_json('data/internal.json')
+erc20        = load_json('data/erc20.json')
+erc721       = load_json('data/erc721.json')
+erc1155      = load_json('data/erc1155.json')
 
 tx_map = {}
 
@@ -194,7 +194,7 @@ fieldnames = [
 
 rows = sorted(tx_map.values(), key=lambda x: (x['timeStamp'], x['hash']))
 
-with open('ledger.csv', 'w', newline='', encoding='utf-8') as f:
+with open('data/ledger.csv', 'w', newline='', encoding='utf-8') as f:
     writer = csv.DictWriter(f, fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(rows)

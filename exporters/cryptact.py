@@ -3,8 +3,8 @@ from collections import defaultdict, Counter
 from datetime import datetime, timezone
 import re
 
-INPUT  = 'ledger.csv'
-OUTPUT = 'cryptact_custom.csv'
+INPUT  = 'data/ledger.csv'
+OUTPUT = 'output/cryptact_custom.csv'
 SOURCE = 'SOMNIA'
 
 APPROVE_METHOD = '0x095ea7b3'
@@ -168,7 +168,7 @@ def process_group(hash_, rows, my_addresses):
                                     fee=fee, comment=comment))
             fee = 0.0
         if not erc20_rows and native_val > 0:
-            results.append(make_row(timestamp, 'BUY', 'MON', native_val,
+            results.append(make_row(timestamp, 'BUY', 'SOMI', native_val,
                                     fee=fee, comment=comment))
         return results
 
@@ -190,7 +190,7 @@ def process_group(hash_, rows, my_addresses):
                                     fee=fee, comment=comment))
             fee = 0.0
         if not erc20_rows and native_val > 0:
-            results.append(make_row(timestamp, 'SELL', 'MON', native_val,
+            results.append(make_row(timestamp, 'SELL', 'SOMI', native_val,
                                     fee=fee, comment=comment))
         return results
 
@@ -228,7 +228,7 @@ def process_group(hash_, rows, my_addresses):
     # ------------------------------------------------------------------ #
     if native_val > 0:
         action = 'PAY' if is_mine_sender else 'BONUS'
-        results.append(make_row(timestamp, action, 'MON', native_val,
+        results.append(make_row(timestamp, action, 'SOMI', native_val,
                                 fee=fee, comment=comment))
         fee = 0.0
         return results
@@ -242,7 +242,7 @@ def process_group(hash_, rows, my_addresses):
             continue
         from_addr = (r.get('from') or '').lower()
         action = 'PAY' if from_addr in my_addresses else 'BONUS'
-        results.append(make_row(timestamp, action, 'MON', val,
+        results.append(make_row(timestamp, action, 'SOMI', val,
                                 fee=fee, comment=comment))
         fee = 0.0
 
@@ -254,7 +254,7 @@ def process_group(hash_, rows, my_addresses):
     # ------------------------------------------------------------------ #
     if fee > 0:
         results.append(make_row(
-            timestamp, 'SENDFEE', 'MON', fee,
+            timestamp, 'SENDFEE', 'SOMI', fee,
             fee=0.0,
             comment=f'gas:{comment}'
         ))

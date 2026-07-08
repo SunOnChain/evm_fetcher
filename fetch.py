@@ -19,7 +19,7 @@ for name, action in ENDPOINTS.items():
     with urllib.request.urlopen(url) as r:
         data = json.loads(r.read().decode())
 
-    with open(f"{name}.json", "w") as f:
+    with open(f"data/{name}.json", "w") as f:
         json.dump(data, f, indent=2)
 
 print("Done!")
