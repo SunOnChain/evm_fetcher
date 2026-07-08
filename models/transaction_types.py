@@ -1,0 +1,25 @@
+"""
+Canonical transaction types used throughout TXN.
+"""
+
+UNKNOWN = "UNKNOWN"
+
+SEND = "SEND"
+RECEIVE = "RECEIVE"
+SELF_TRANSFER = "SELF_TRANSFER"
+
+SWAP = "SWAP"
+
+BRIDGE = "BRIDGE"
+
+STAKE = "STAKE"
+UNSTAKE = "UNSTAKE"
+
+CLAIM = "CLAIM"
+
+NFT_TRADE = "NFT_TRADE"
+
+MINT = "MINT"
+BURN = "BURN"
+
+APPROVAL = "APPROVAL"

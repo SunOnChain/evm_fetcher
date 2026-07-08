@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from models.transaction import Transaction
-from models.event import Event
+from models.event_factory import build_event
 
 
 class Normalizer:
@@ -14,6 +14,7 @@ class Normalizer:
 
         for row in rows:
             tx_hash = row.get("hash")
+
             if tx_hash:
                 groups[tx_hash].append(row)
 
@@ -31,17 +32,7 @@ class Normalizer:
             )
 
             for row in group:
-                event = Event(
-                    event_type="RAW",
-                    asset=row.get("tokenSymbol") or "NATIVE",
-                    amount=row.get("tokenValue") or row.get("value") or "0",
-                    sender=row.get("from"),
-                    receiver=row.get("to"),
-                    contract=row.get("contractAddress"),
-                    token_id=row.get("tokenID"),
-                )
-
-                tx.add_event(event)
+                tx.add_event(build_event(row))
 
             transactions.append(tx)
 

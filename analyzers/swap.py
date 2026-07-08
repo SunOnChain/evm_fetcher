@@ -1,14 +1,18 @@
 from models.transaction import Transaction
+from models.transaction_types import SWAP
 
 
 def analyze(tx: Transaction):
-    incoming = set()
-    outgoing = set()
+    # Known DEX interaction is a strong signal.
+    if tx.category != "DEX":
+        return None
 
     wallet = tx.wallet.lower()
 
-    for event in tx.asset_events:
+    incoming = set()
+    outgoing = set()
 
+    for event in tx.asset_events:
         if event.sender and event.sender.lower() == wallet:
             outgoing.add(event.asset)
 
@@ -16,6 +20,6 @@ def analyze(tx: Transaction):
             incoming.add(event.asset)
 
     if incoming and outgoing:
-        return "SWAP"
+        return SWAP
 
     return None
