@@ -1,54 +1,53 @@
 import os
-
-def run(cmd):
-    print(f"\n>> {cmd}")
-    code = os.system(cmd)
-    if code != 0:
-        print("\nERROR! Pipeline stopped.")
-        exit(1)
+from fetch import fetch
 
 print("=" * 40)
-print("TXN v0.3")
+print("TXN v0.4")
 print("=" * 40)
 
-print("\n1. Full Pipeline")
-print("2. Fetch Only")
-print("3. Normalize Only")
-print("4. Export Cryptact")
-print("5. Export Koinly")
-print("6. Export Both")
-print("0. Exit")
+wallet = input("\nWallet Address: ").strip()
 
-choice = input("\nSelect: ").strip()
+from config import CHAINS
 
-if choice == "1":
-    run("python fetch.py")
-    run("python normalize.py")
-    run("python exporters/cryptact.py")
-    run("python exporters/koinly.py")
-    print("\n✅ Done!")
-    print("Files are in output/")
+print("\nChains")
 
-elif choice == "2":
-    run("python fetch.py")
+for key, chain in CHAINS.items():
+    print(f"{key}. {chain['name']}")
 
-elif choice == "3":
-    run("python normalize.py")
+choice = input("\nSelect chain: ").strip()
 
-elif choice == "4":
-    run("python exporters/cryptact.py")
+if choice not in CHAINS:
+    print("Invalid chain.")
+    exit()
 
-elif choice == "5":
-    run("python exporters/koinly.py")
+chain = CHAINS[choice]["id"]
 
-elif choice == "6":
-    run("python exporters/cryptact.py")
-    run("python exporters/koinly.py")
-    print("\n✅ Done!")
-    print("Files are in output/")
+print("\nExporter")
+print("1. Cryptact")
+print("2. Koinly")
+print("3. Both")
 
-elif choice == "0":
-    print("Bye!")
+exporter = input("\nSelect exporter: ").strip()
+
+print("\nFetching...")
+fetch(chain, wallet)
+
+print("\nNormalizing...")
+os.system("python normalize.py")
+
+if exporter == "1":
+    os.system("python exporters/cryptact.py")
+
+elif exporter == "2":
+    os.system("python exporters/koinly.py")
+
+elif exporter == "3":
+    os.system("python exporters/cryptact.py")
+    os.system("python exporters/koinly.py")
 
 else:
-    print("Invalid option.")
+    print("Invalid exporter.")
+    exit()
+
+print("\n✅ Done!")
+print("Check the output/ folder.")
