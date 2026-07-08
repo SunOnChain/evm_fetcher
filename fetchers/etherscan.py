@@ -12,29 +12,34 @@ ENDPOINTS = {
 }
 
 
-def fetch(config, address):
+def fetch(chain, address):
     wallet_dir = f"data/wallets/{address.lower()}"
     os.makedirs(wallet_dir, exist_ok=True)
 
     for filename, action in ENDPOINTS.items():
         params = {
+            "chainid": chain["chainid"],
             "module": "account",
             "action": action,
             "address": address,
             "sort": "asc",
         }
 
-        if config.get("apikey"):
-            params["apikey"] = config["apikey"]
+        if chain["apikey"]:
+            params["apikey"] = chain["apikey"]
 
-        url = f"{config['api']}?{urllib.parse.urlencode(params)}"
+        url = f"{chain['api']}?{urllib.parse.urlencode(params)}"
 
         print(f"Downloading {filename}...")
 
         with urllib.request.urlopen(url) as r:
             data = json.loads(r.read().decode())
 
-        with open(f"{wallet_dir}/{filename}.json", "w", encoding="utf-8") as f:
+        with open(
+            f"{wallet_dir}/{filename}.json",
+            "w",
+            encoding="utf-8",
+        ) as f:
             json.dump(data, f, indent=2)
 
     print("Download complete.")

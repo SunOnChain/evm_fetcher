@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 DATA_DIR = "data"
 WALLETS_DIR = os.path.join(DATA_DIR, "wallets")
@@ -40,7 +41,18 @@ for name in FILES:
 
         rows = load_json(path)
 
-        for row in rows:
+        if not isinstance(rows, list):
+            print(f"{name}: result is {type(rows).__name__}")
+            print(rows)
+            sys.exit(1)
+
+        for i, row in enumerate(rows):
+            if not isinstance(row, dict):
+                print(f"\nERROR in {path}")
+                print(f"Row {i} is {type(row).__name__}")
+                print(row)
+                sys.exit(1)
+
             key = row.get("hash")
 
             if not key:
