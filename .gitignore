@@ -1,20 +1,51 @@
+# -------------------------
 # Python
+# -------------------------
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
 
 # Virtual environments
 .venv/
 venv/
+env/
 
-# Generated blockchain data
-data/wallets/
+# -------------------------
+# Runtime blockchain data
+# -------------------------
+data/
+!data/.gitkeep
+
+# Generated exports
 output/
+!output/.gitkeep
 
-# Local configuration
+# -------------------------
+# Environment / secrets
+# -------------------------
 .env
+.env.*
 
+# -------------------------
+# IDE / Editor
+# -------------------------
+.vscode/
+.idea/
+
+# -------------------------
 # OS files
+# -------------------------
 .DS_Store
 Thumbs.db
+
+# -------------------------
+# Test / coverage
+# -------------------------
+.coverage
+.pytest_cache/
+htmlcov/
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
