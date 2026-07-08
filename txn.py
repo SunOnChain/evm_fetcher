@@ -1,13 +1,29 @@
 import os
+import shutil
+
 from fetch import fetch
-
-print("=" * 40)
-print("TXN v0.4")
-print("=" * 40)
-
-wallet = input("\nWallet Address: ").strip()
-
 from config import CHAINS
+
+print("=" * 40)
+print("TXN v0.5")
+print("=" * 40)
+
+print("\nPaste wallet addresses (one per line).")
+print("Press Enter on an empty line when finished.\n")
+
+wallets = []
+
+while True:
+    wallet = input().strip()
+
+    if wallet == "":
+        break
+
+    wallets.append(wallet)
+
+if not wallets:
+    print("No wallets entered.")
+    exit()
 
 print("\nChains")
 
@@ -29,11 +45,25 @@ print("3. Both")
 
 exporter = input("\nSelect exporter: ").strip()
 
+# Clear previous wallet cache
+if os.path.exists("data/wallets"):
+    shutil.rmtree("data/wallets")
+
+os.makedirs("data/wallets", exist_ok=True)
+
 print("\nFetching...")
-fetch(chain, wallet)
+
+for wallet in wallets:
+    print(f"\n→ {wallet}")
+    fetch(chain, wallet)
+
+print("\nMerging...")
+if os.system("python merge.py") != 0:
+    exit(1)
 
 print("\nNormalizing...")
-os.system("python normalize.py")
+if os.system("python normalize.py") != 0:
+    exit(1)
 
 if exporter == "1":
     os.system("python exporters/cryptact.py")

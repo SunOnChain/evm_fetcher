@@ -1,5 +1,5 @@
 {
-  "message": "OK",
+  "status": "1",
   "result": [
     {
       "blockNumber": "352981135",
@@ -2568,6 +2568,5 @@
       "type": "call",
       "value": "133779330800000000000"
     }
-  ],
-  "status": "1"
+  ]
 }
