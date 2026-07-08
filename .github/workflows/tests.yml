@@ -1,0 +1,38 @@
+name: TXN Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Verify Python
+        run: python --version
+
+      - name: Run model tests
+        run: python -m tests.test_models
+
+      - name: Run normalizer tests
+        run: python -m tests.test_normalizer
+
+      - name: Run transfer analyzer tests
+        run: python -m tests.test_transfer
+
+      - name: Run analyzer engine tests
+        run: python -m tests.test_engine
+
+      - name: Run swap analyzer tests
+        run: python -m tests.test_swap
