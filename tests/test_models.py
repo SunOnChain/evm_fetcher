@@ -17,7 +17,7 @@ tx.add_event(
     )
 )
 
-assert len(tx.events) == 1
-assert tx.events[0].asset == "ETH"
+assert len(tx.asset_events) == 1
+assert tx.asset_events[0].asset == "ETH"
 
 print("Model tests passed.")
