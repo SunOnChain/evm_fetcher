@@ -123,7 +123,7 @@ merge_token(erc721,  tx_map, 'erc721')
 merge_token(erc1155, tx_map, 'erc1155')
 
 for r in internal:
-    h = s(r.get('hash', ''))
+    h = s(r.get('hash') or r.get('transactionHash'))
     if not h:
         continue
     if h not in tx_map:
